@@ -27,17 +27,26 @@ class AppViews extends Component {
       )
     }
     
+    //   componentDidMount(){
+    //     APIManager.getAll("employees")
+    //     .then(data => 
+    //       this.setState({
+    //       employees: data,
+    //     }))
+    //     APIManager.getAll("animals")
+    //     .then(data => 
+    //       this.setState({
+    //         animals: data,
+    //     }))
+    //   }
+//try this one - cleaner
       componentDidMount(){
         APIManager.getAll("employees")
-        .then(data => 
-          this.setState({
-          employees: data,
-        }))
-        APIManager.getAll("animals")
-        .then(data => 
-          this.setState({
-            animals: data,
-        }))
+        .then(employees => newState.employees = employees)
+        .then(() => APIManager.getAll("animals")
+        .then(animals => newState.animals = animals)
+        .then(() =>
+          this.setState(newState))
       }
     
       

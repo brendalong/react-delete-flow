@@ -12,7 +12,9 @@ class AnimalList extends Component {
                 
                 <div>{animal.name}: {animal.type} 
                 <Link className="nav-link" to={`/animals/${animal.id}`}>Details</Link>
-                </div>
+                <a href="#"
+                onClick={() => this.props.deleteAnimal(animal.id)}
+                className="card-link">Delete From List</a></div>
             </article>
             })}
             </>
