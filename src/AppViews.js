@@ -1,10 +1,10 @@
-import { Route } from 'react-router-dom'
-import React, { Component } from "react"
-import AnimalList from './AnimalList'
+import React, { Component } from "react";
+import { Route } from 'react-router-dom';
+import AnimalList from './AnimalList';
 // import LocationList from './LocationList'
 import EmployeeList from './EmployeeList';
 import APIManager from './db-calls';
-import AnimalDetail from './AnimalDetail'
+import AnimalDetail from './AnimalDetail';
 
 
 class AppViews extends Component {
@@ -15,10 +15,6 @@ class AppViews extends Component {
       }
 
       deleteAnimal = (id) => {
-          console.log("props in app views ", this.props);
-        // this.history.push("/animals");
-
-        console.log("delete animal", id);
         APIManager.deleteAnimal(id)
         .then(() => APIManager.getAll("animals")
         .then((animals) => {
@@ -27,8 +23,7 @@ class AppViews extends Component {
             animals: animals
             })
         })
-      )
-    }
+      )}
 
       componentDidMount(){
         APIManager.getAll("employees")
