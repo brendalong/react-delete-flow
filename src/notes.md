@@ -2,13 +2,13 @@ After placing console.logs in the code to follow the actual flow, here is what I
 
 1. Use of `<a href="#">` causes render to be re-called (page reloading)
 2. Invoking `this.props.history.push("/animals")` within the onClick displays the following flow:
-    AnimalList.render
-    AnimalDetail.render:id 1
-    AppViews.deleteAnimal: 1
-    AnimalDetail.render:id 1 - caused by the `<a href="#">`. (console.log order is not consistent)
-    AppViews.deleteAnimal.then.getAllAnimals
-    AnimalDetail.render:id 1 - no animal exists at this point. 
-    AnimalList.render
+    * AnimalList.render
+    * AnimalDetail.render:id 1
+    * AppViews.deleteAnimal: 1
+    * AnimalDetail.render:id 1 - caused by the `<a href="#">`. (console.log order is not consistent)
+    * AppViews.deleteAnimal.then.getAllAnimals
+    * AnimalDetail.render:id 1 - no animal exists at this point. 
+    * AnimalList.render
 3. AnimalDetail is being rendered even though the animal by that id is no longer valid.
 
 Propose
@@ -19,7 +19,7 @@ Propose
 
 ## Question: Does AppViews need to hold state for location, animals and employees?
 1. After outlining each view, discovered state for locations, employees, animals is not shared.
-    1. Independant calls are retrieving data as needed.
+    * Independant calls are retrieving data as needed.
 1. ComponentDidMount can load the data for each.
-    1. AnimalsList invokes getting the animals on componentDidMount
+    * AnimalsList invokes getting the animals on componentDidMount
 
