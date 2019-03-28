@@ -1,50 +1,47 @@
 import React, { Component } from 'react'
-import {Redirect} from 'react-router-dom';
+import {Redirect, Link} from 'react-router-dom';
+import APIManager from './db-calls';
+
 
 export default class AnimalDetail extends Component {
-    render() {
-        console.log("render of AnimalDetail running id:", this.props.match.params.animalId);
-        /*
-            Using the route parameter, find the animal that the
-            user clicked on by looking at the `this.props.animals`
-            collection that was passed down from ApplicationViews
-        */
-        const animal = this.props.animals.find(a => a.id === parseInt(this.props.match.params.animalId)) || {}
+    //two options
+    //1. render based on object passed in via location
+    //2. make call to get single item, based on url param id
 
-        // return (
-        //     <section className="animal">
-        //         <div key={animal.id} className="card">
-        //             <div className="card-body">
-        //                 <h4 className="card-title">
-        //                     {animal.name}
-        //                 </h4>
-        //                 <h6 className="card-title">{animal.type}</h6>
-        //                 <a href="#"
-        //                     onClick={() => this.props.deleteAnimal(animal.id)
-        //                                     .then(() => this.props.history.push("/animals"))}
-        //                     className="card-link">Delete</a>
-        //             </div>
-        //         </div>
-        //     </section>
-        // )
-        return (
-            <section className="animal">
-                {animal.id ?
+    //to think about
+        // a anchor tag. href is hypertext reference. Means to go somewhere
+        // button - means to have interactivity
+        //react-router Link renders an <a></a> with extras - automatically knows where your components are and can adjust the style of a link to make it look active when it's the page the user is currently browsing
+        
+
+    deleteAnimal = (id) => {
+        APIManager.deleteAnimal(id)
+          .then(() => this.props.history.push("/animals")
+    )}
+
+    render() {
+        if (this.props.location.state != undefined){
+            const animal = this.props.location.state.animal;
+            return (
+                <section className="animal">
+                
                     <div key={animal.id} className="card">
                         <div className="card-body">
                             <h4 className="card-title">
-                                {animal.name}
+                                Name: {animal.name}
                             </h4>
-                            <h6 className="card-title">{animal.type}</h6>
-                            <a href="#"
-                                onClick={() => this.props.deleteAnimal(animal.id)}
-                                className="card-link">Delete</a>
+                            <h6 className="card-title">Kind: {animal.type}</h6>
+                            <button
+                                onClick={() => this.deleteAnimal(animal.id)}
+                                className="card-link">Delete</button>
                         </div>
                     </div>
-
-                    : <Redirect to='/animals' />
-                }
-            </ section>
-        )
+                </section>
+            )
+        }else{
+            return (
+                <Redirect to="/animals" /> 
+            )
+        }
     }
 }

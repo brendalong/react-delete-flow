@@ -3,7 +3,6 @@ const dbRemote = "http://localhost:3000";
 export default Object.create(null, {
     getAll: {
         value: function (dataTable) {
-            console.log("get all", dataTable);
             return fetch(`${dbRemote}/${dataTable}`)
             .then(e => e.json())
         }

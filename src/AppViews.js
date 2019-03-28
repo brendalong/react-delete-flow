@@ -1,66 +1,35 @@
 import React, { Component } from "react";
 import { Route } from 'react-router-dom';
 import AnimalList from './AnimalList';
-// import LocationList from './LocationList'
 import EmployeeList from './EmployeeList';
-import APIManager from './db-calls';
 import AnimalDetail from './AnimalDetail';
-
 
 class AppViews extends Component {
     state = {
-        employees: [],
-        locations: [],
-        animals: []
+        auth: false,
       }
-
-      deleteAnimal = (id) => {
-        APIManager.deleteAnimal(id)
-        .then(() => APIManager.getAll("animals")
-        .then((animals) => {
-            console.log("here now", animals);
-            this.setState({
-            animals: animals
-            })
-        })
-      )}
-
       componentDidMount(){
-        APIManager.getAll("employees")
-        .then(data =>
-          this.setState({
-          employees: data,
-        }))
-        APIManager.getAll("animals")
-        .then(data =>
-          this.setState({
-            animals: data,
-        }))
+        
       }
-//try this one - cleaner
-    //   componentDidMount(){
-    //     APIManager.getAll("employees")
-    //     .then(employees => newState.employees = employees)
-    //     .then(() => APIManager.getAll("animals")
-    //     .then(animals => newState.animals = animals)
-    //     .then(() =>
-    //       this.setState(newState))
-    //   }
 
+    //couple of notes for below
+    //test out adding exact to the /animals and then removing
+    //notice how clicking on specific animal will either display or not the animal list
 
+    //add/remove {...props} to animals/ route. notice how router info is passed along.
 
     render() {
         return (
             <React.Fragment>
 
-                <Route path="/animals" render={(props) => {
-                    return <AnimalList animals={this.state.animals} deleteAnimal={this.deleteAnimal} />
+                <Route exact path="/animals" render={(props) => {
+                    return <AnimalList {...props} />
                 }} />
                 <Route path="/animals/:animalId(\d+)" render={(props) => {
-                    return <AnimalDetail {...props} deleteAnimal={this.deleteAnimal} animals={this.state.animals} />
+                    return <AnimalDetail {...props} />
                 }} />
                 <Route path="/employees" render={(props) => {
-                    return <EmployeeList employees={this.state.employees} />
+                    return <EmployeeList />
                 }} />
             </React.Fragment>
         )
