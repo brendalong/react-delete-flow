@@ -14,8 +14,11 @@ class AppViews extends Component {
         animals: []
       }
 
-      deleteAnimal = id => {
-          console.log("delete animal", id);
+      deleteAnimal = (id) => {
+          console.log("props in app views ", this.props);
+        // this.history.push("/animals");
+
+        console.log("delete animal", id);
         APIManager.deleteAnimal(id)
         .then(() => APIManager.getAll("animals")
         .then((animals) => {
@@ -26,35 +29,35 @@ class AppViews extends Component {
         })
       )
     }
-    
-    //   componentDidMount(){
-    //     APIManager.getAll("employees")
-    //     .then(data => 
-    //       this.setState({
-    //       employees: data,
-    //     }))
-    //     APIManager.getAll("animals")
-    //     .then(data => 
-    //       this.setState({
-    //         animals: data,
-    //     }))
-    //   }
-//try this one - cleaner
+
       componentDidMount(){
         APIManager.getAll("employees")
-        .then(employees => newState.employees = employees)
-        .then(() => APIManager.getAll("animals")
-        .then(animals => newState.animals = animals)
-        .then(() =>
-          this.setState(newState))
+        .then(data =>
+          this.setState({
+          employees: data,
+        }))
+        APIManager.getAll("animals")
+        .then(data =>
+          this.setState({
+            animals: data,
+        }))
       }
-    
-      
+//try this one - cleaner
+    //   componentDidMount(){
+    //     APIManager.getAll("employees")
+    //     .then(employees => newState.employees = employees)
+    //     .then(() => APIManager.getAll("animals")
+    //     .then(animals => newState.animals = animals)
+    //     .then(() =>
+    //       this.setState(newState))
+    //   }
+
+
 
     render() {
         return (
             <React.Fragment>
-                
+
                 <Route path="/animals" render={(props) => {
                     return <AnimalList animals={this.state.animals} deleteAnimal={this.deleteAnimal} />
                 }} />
